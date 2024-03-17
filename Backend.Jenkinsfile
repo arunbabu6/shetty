@@ -105,7 +105,7 @@ pipeline {
                       -Dsonar.projectKey=Project-Shetty \
                       -Dsonar.sources=. \
                       -Dsonar.host.url=http://172.19.0.3:9000/ \
-                      -Dsonar.login=$SONARQUBE_TOKEN
+                      -Dsonar.login=$SONARQUBE_TOKEN \
                       -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info
                     """
                 }
