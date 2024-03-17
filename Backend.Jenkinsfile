@@ -106,7 +106,7 @@ pipeline {
                       -Dsonar.sources=. \
                       -Dsonar.host.url=http://172.19.0.3:9000/ \
                       -Dsonar.login=$SONARQUBE_TOKEN \
-                      -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info
+                      -Dsonar.javascript.lcov.reportPaths=WWA-backend-master/coverage/lcov.info
                     """
                 }
             }
