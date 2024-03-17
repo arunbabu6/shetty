@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        DOCKER_IMAGE = 'annesh/pro-v2'
+        DOCKER_IMAGE = 'shetty/pro-v2'
         SONARQUBE_TOKEN = credentials('sonar-docker')
         DOCKERHUB_CREDENTIALS = credentials('dockerhub1')
         // SSH credentials for each environment
@@ -153,7 +153,7 @@ pipeline {
                         sshagent(['jenkinaccess']) {
                             // Clear the 'artifacts' directory on the Docker host
                             sh "ssh ab@host.docker.internal 'rm -rf ${PROJECT_DIR}/artifacts/*'"
-                            sh "scp -rp artifacts2/* ab@host.docker.internal:${PROJECT_DIR}/artifacts/"
+                            sh "scp -rp artifacts3/* ab@host.docker.internal:${PROJECT_DIR}/artifacts/"
                             // Build the Docker image on the Docker host
                             sh "ssh ab@host.docker.internal 'cd ${PROJECT_DIR} && docker build -t ${env.DOCKER_IMAGE}-backend-shetty:${env.ENVIRONMENT.toLowerCase()}-${env.BUILD_NUMBER} .'"
                         }
