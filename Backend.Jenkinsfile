@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        DOCKER_IMAGE = 'shetty/pro-v2'
+        DOCKER_IMAGE = 'arunthopil/shetty-pro-v2'
         SONARQUBE_TOKEN = credentials('sonar-docker')
         DOCKERHUB_CREDENTIALS = credentials('dockerhub1')
         // SSH credentials for each environment
