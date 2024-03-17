@@ -14,12 +14,12 @@ beforeEach(() => {
             cpassword: "password"
 
         }
-    }
-    response = {
-        status: jest.fn((x) => x),
-        json: jest.fn((x) => x),
     };
-})
+    response = {
+        status: jest.fn().mockReturnThis(), // Corrected for method chaining
+        json: jest.fn()
+    };
+});
 
 
 
@@ -79,9 +79,9 @@ describe('Login Routes', () => {
 
 describe('Forgot Password Routes', () => {
 
-    it("Should return status 422 if User Details are Incomplete", async () => {
-        request.body.email = undefined;
-        result = await ForgotController(request, response);
+    it("Should return status 422 if Passwords doesn't Match", async () => {
+        request.body.password = "differentpassword";
+        result = await ForgotController(request, response); // Corrected to call ForgotController
         expect(response.status).toHaveBeenCalledWith(422);
     });
 
