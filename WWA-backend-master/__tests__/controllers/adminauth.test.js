@@ -14,12 +14,12 @@ beforeEach(() => {
             cpassword: "password"
 
         }
-    }
-    response = {
-        status: jest.fn((x) => x),
-        json: jest.fn((x) => x),
     };
-})
+    response = {
+        status: jest.fn().mockReturnThis(), // Adjusted for method chaining
+        json: jest.fn()
+    };
+});
 
 
 
@@ -102,10 +102,10 @@ describe('Forgot Password Routes', () => {
 describe('Logout Routes', () => {
 
     it("Should return status 500 if Admin was not logged in", async () => {
-        const jwtoken = "Not a valid Token";
-        result = await AdminLogoutController(request, response);
+        // Assuming AdminLogoutController might check for a token or session which isn't set here
+        // Your test logic seems correct; just ensure that the controller behaves as expected under this condition
+        const result = await AdminLogoutController(request, response);
         expect(response.status).toHaveBeenCalledWith(500);
     });
 
 });
-
