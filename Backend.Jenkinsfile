@@ -85,6 +85,15 @@ pipeline {
                 }
             }
         }
+        stage('Run Tests CodeCoverage') {
+            agent any
+            steps {
+                dir('WWA-backend-master') {
+                    // Run Jest tests with coverage
+                    sh 'npm test -- --coverage'
+                }
+            }
+        }
 
         // SonarQube Analysis and Snyk Security Scan 
         stage('SonarQube Analysis') {
