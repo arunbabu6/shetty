@@ -32,5 +32,8 @@ jobs:
         with:
           args:
             -Dsonar.projectKey=group2
-            -Dsonar.coverage.javascript.lcovReportPaths=/WWA-backend-master/coverage/lcov.info
+            -Dsonar.sources=.
+            -Dsonar.host.url=${{ secrets.SONAR_HOST_URL }}
+            -Dsonar.login=${{ secrets.SONAR_TOKEN }}
+            -Dsonar.javascript.lcov.reportPaths=WWA-backend-master/coverage/lcov.info
             # Add other SonarQube analysis parameters as needed
