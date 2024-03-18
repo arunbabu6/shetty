@@ -44,15 +44,17 @@ jobs:
       # Add the Snyk security scan step
       - name: Snyk Security Scan
         uses: snyk/actions/node@master
-        continue-on-error: true
-        working-directory: ./WWA-backend-master
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        run: |
+          cd WWA-backend-master
+          snyk test --severity-threshold=high --sarif --sarif-file-output=snyk.sarif
         with:
-      #    command: monitor
           args: 
             --severity-threshold=high
             --sarif-file-output=snyk.sarif
+        continue-on-error: true
+ 
        # run: snyk test --org=shreyashettys202 --project-name=Group2 --json || true
       - name: Upload result to GitHub Code Scanning
         uses: github/codeql-action/upload-sarif@v2
