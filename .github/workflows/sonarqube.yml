@@ -42,7 +42,8 @@ jobs:
         run: snyk test --org=shreyashettys202 --project-name=Group2 --json
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-        working-directory: ./WWA-backend-master 
+        working-directory: ./WWA-backend-master
+        continue-on-error: true
       - name: Process Snyk Scan Results
         if: steps.snyk.outcome == 'failure'
         run: |
