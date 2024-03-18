@@ -37,18 +37,11 @@ jobs:
             -Dsonar.login=${{ secrets.SONAR_TOKEN }}
             -Dsonar.javascript.lcov.reportPaths=WWA-backend-master/coverage/lcov.info
             # Add other SonarQube analysis parameters as needed
-      # Install Snyk CLI and Run Snyk Security Scan
-      - name: Install Snyk CLI
-        run: npm install -g snyk
-        working-directory: ./WWA-backend-master
       # Add the Snyk security scan step
       - name: Snyk Security Scan
         uses: snyk/actions/node@master
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-        run: |
-          cd WWA-backend-master
-          snyk test --severity-threshold=high --sarif --sarif-file-output=snyk.sarif
         with:
           args: 
             --severity-threshold=high
