@@ -48,7 +48,7 @@ jobs:
 
       - name: Snyk Security Scan
         run: |
-          snyk test --org=your_org_name --project-name=Group2 --severity-threshold=high --json --file=WWA-backend-master/package.json > snyk-results.json
+          snyk test --org=shreyashettys202 --project-name=Group2 --severity-threshold=high --json --file=WWA-backend-master/package.json > snyk-results.json
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         continue-on-error: true
