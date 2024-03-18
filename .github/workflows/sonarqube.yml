@@ -43,12 +43,12 @@ jobs:
         working-directory: ./WWA-backend-master
       # Add the Snyk security scan step
       - name: Snyk Security Scan
-        run: snyk test --org=shreyashettys202 --project-name=Group2 --json || true
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-          working-directory: ./WWA-backend-master
-          continue-on-error: true
-
-
-
-
+        run: snyk test --org=shreyashettys202 --project-name=Group2 --json || true
+        working-directory: ./WWA-backend-master
+        continue-on-error: true
+      - name: Process Snyk Scan Results
+        if: steps.snyk.outcome == 'failure'
+        run: |
+          echo "Snyk scan detected issues."
