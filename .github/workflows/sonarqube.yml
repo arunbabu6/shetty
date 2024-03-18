@@ -45,7 +45,7 @@ jobs:
       - name: Snyk Security Scan
         uses: snyk/actions/node@master
         continue-on-error: true
-        working-directory: ./WWA-backend-master
+        #working-directory: ./WWA-backend-master
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         with:
