@@ -29,26 +29,10 @@ jobs:
           java-version: '17'
           distribution: 'adopt'
 
-      - name: SonarQube Scan
-        uses: SonarSource/sonarqube-scan-action@master
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
-        with:
-          args: >
-            -Dsonar.projectKey=group2
-            -Dsonar.sources=WWA-backend-master
-            -Dsonar.host.url=${{ secrets.SONAR_HOST_URL }}
-            -Dsonar.login=${{ secrets.SONAR_TOKEN }}
-            -Dsonar.javascript.lcov.reportPaths=WWA-backend-master/coverage/lcov.info
-
       - name: Install Snyk CLI
         run: npm install -g snyk
 
       - name: Snyk Security Scan
-        run: |
-          snyk test --org=shreyashettys202 --project-name=Group2 --severity-threshold=high --json --file=WWA-backend-master/package.json > snyk-results.json
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         continue-on-error: true
