@@ -4,7 +4,7 @@ on:
     branches:
       - main
 jobs:
-  sonarqube_analysis:
+  snyk_analysis:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -33,4 +33,15 @@ jobs:
           args:
             -Dsonar.projectKey=group2
             -Dsonar.coverage.javascript.lcovReportPaths=WWA-backend-master/coverage/lcov.info
-            # Add other SonarQube analysis parameters as needed
+      # Add the Snyk security scan step
+      - name: Snyk Security Scan
+        uses: snyk/actions/node@master
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        with:
+          command: test
+          args: --org=shreyashettys202 ---name=Group2 --json
+      - name: Process Snyk Scan Results
+        if: steps.snyk.outcome == 'failure'
+        run: |
+          echo "Snyk scan detected issues."
