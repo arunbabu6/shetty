@@ -49,7 +49,7 @@ jobs:
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         with:
-          command: monitor
+          #command: monitor
           args: 
             --severity-threshold=high
             --sarif-file-output=snyk.sarif
