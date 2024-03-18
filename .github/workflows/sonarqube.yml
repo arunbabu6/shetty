@@ -41,6 +41,7 @@ jobs:
         with:
           command: test
           args: --org=shreyashettys202 ---name=Group2 --json
+        working-directory: ./WWA-backend-master 
       - name: Process Snyk Scan Results
         if: steps.snyk.outcome == 'failure'
         run: |
