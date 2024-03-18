@@ -29,20 +29,36 @@ jobs:
           java-version: '17'
           distribution: 'adopt'
 
+      - name: SonarQube Scan
+        uses: SonarSource/sonarqube-scan-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+        with:
+          args: >
+            -Dsonar.projectKey=group2
+            -Dsonar.sources=WWA-backend-master
+            -Dsonar.host.url=${{ secrets.SONAR_HOST_URL }}
+            -Dsonar.login=${{ secrets.SONAR_TOKEN }}
+            -Dsonar.javascript.lcov.reportPaths=WWA-backend-master/coverage/lcov.info
+
       - name: Install Snyk CLI
         run: npm install -g snyk
-
+        working-directory: WWA-backend-master
+      # Add the Snyk security scan step
       - name: Snyk Security Scan
+        uses: snyk/actions/node@master
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-        continue-on-error: true
-        working-directory: WWA-backend-master
-
-      - name: Convert Snyk results to SARIF
-        run: snyk-to-sarif -i snyk-results.json -o snyk-results.sarif
-        working-directory: WWA-backend-master
-
-      - name: Upload Snyk results to GitHub Code Scanning
-        uses: github/codeql-action/upload-sarif@v3
         with:
-          sarif_file: WWA-backend-master/snyk-results.sarif
+          args: 
+            --severity-threshold=high
+            --sarif-file-output=snyk.sarif
+        continue-on-error: true
+ 
+       # run: snyk test --org=shreyashettys202 --project-name=Group2 --json || true
+      - name: Upload result to GitHub Code Scanning
+        uses: github/codeql-action/upload-sarif@v2
+        with:
+          sarif_file: snyk.sarif       
