@@ -12,7 +12,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '18'
+          node-version: '20'
       - name: Install dependencies
         run: cd WWA-backend-master && npm install
       - name: Run Jest tests with coverage
@@ -23,6 +23,21 @@ jobs:
         with:
           java-version: '17'
           distribution: 'adopt'
+#########################################
+      - name: SonarQube Scan
+        uses: SonarSource/sonarqube-scan-action@7295e71c9583053f5bf40e9d4068a0c974603ec8
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+        with:
+          args:
+            -Dsonar.projectKey=group2
+            -Dsonar.sources=.
+            -Dsonar.host.url=${{ secrets.SONAR_HOST_URL }}
+            -Dsonar.login=${{ secrets.SONAR_TOKEN }}
+            -Dsonar.javascript.lcov.reportPaths=WWA-backend-master/coverage/lcov.info
+            
       # Snyk security scan step for web
 
       - name: Checkout repository
@@ -41,20 +56,27 @@ jobs:
         continue-on-error: true
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-        working-directory: 
-                WWA-backend-master
-                WWA-frontend-master
+        working-directory: WWA-backend-master
 
-
+      - name: Snyk Security Scan Frontend
+        run: snyk test --org=shreyashettys202 --project-name='Project-Group3'
+        continue-on-error: true
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        working-directory: WWA-frontend-master
+                
       - name: Snyk Monitor
         run: snyk monitor --org=shreyashettys202 --project-name='Project-Group3'
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-        working-directory: 
-                WWA-backend-master
-                WWA-frontend-master
+        working-directory: WWA-backend-master
 
-
+      - name: Snyk Monitor Frontend
+        run: snyk monitor --org=shreyashettys202 --project-name='Project-Group3'
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        working-directory: WWA-frontend-master
+                
   # Snyk security scan step for Code Scanning
 
       - name: Set up Node.js
@@ -72,4 +94,4 @@ jobs:
         uses: github/codeql-action/upload-sarif@v3
         with:
           sarif_file: snyk.sarif
-          category: 'Snyk Open Source Unique Category'
+          category: 'Snyk OpenSource Unique Category'
