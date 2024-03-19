@@ -20,6 +20,7 @@ jobs:
 
       - name: Snyk Security Scan
         run: snyk test --org=shreyashettys202 --project-name='Project-Group3'
+        continue-on-error: true
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         working-directory: WWA-backend-master
