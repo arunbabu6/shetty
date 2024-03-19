@@ -1,10 +1,11 @@
 {
     "source": {
-      "include": ["src"],
+      "include": ["./WWA-frontend-master/src"],
       "exclude": ["node_modules", "test"]
     },
     "opts": {
       "destination": "./WWA-frontend-master/out"
+      "exclude": ["node_modules", "test"]
     },
     "tags": {
       "allowUnknownTags": true,
