@@ -1,0 +1,21 @@
+{
+  "source": {
+    "include": ["./WWA-frontend-master/src"],
+    "exclude": ["node_modules", "test"]
+  },
+  "opts": {
+    "destination": "./WWA-frontend-master/out",
+    "recurse": true
+  },
+  "tags": {
+    "allowUnknownTags": true,
+    "dictionaries": ["jsdoc", "closure"]
+  },
+  "plugins": [
+    "plugins/markdown"
+  ],
+  "templates": {
+    "cleverLinks": false,
+    "monospaceLinks": false
+  }
+}
