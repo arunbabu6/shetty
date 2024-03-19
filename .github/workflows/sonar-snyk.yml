@@ -26,8 +26,8 @@ jobs:
         ##########################################
       - name: Fix Permissions
         run: |
-            sudo chown -R $(whoami) ./.scannerwork
-            sudo chmod -R 755 ./.scannerwork
+            sudo chown -R $(whoami) /home/runner/work/shetty/shetty/.scannerwork
+            sudo chmod -R 755 /home/runner/work/shetty/shetty/.scannerwork
        ############################################# 
       - name: SonarQube Scan
         uses: SonarSource/sonarqube-scan-action@7295e71c9583053f5bf40e9d4068a0c974603ec8
