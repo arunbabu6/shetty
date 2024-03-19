@@ -13,7 +13,7 @@ jobs:
         uses: snyk/actions/node@master
         continue-on-error: true
         with:
-          args: --sarif-file-output=snyk.sarif ./WWA-backend-master
+          args: ./WWA-backend-master --sarif-file-output=snyk.sarif
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
       - name: Upload SARIF to GitHub Security Center
