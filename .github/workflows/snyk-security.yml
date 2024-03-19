@@ -5,16 +5,18 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '20' # Adjust the version as needed
       - name: Run Snyk to check for vulnerabilities
         uses: snyk/actions/node@master
-        continue-on-error: true # To make sure that SARIF upload gets called
+        continue-on-error: true
+        with:
+          args: --sarif-file-output=snyk.sarif ./WWA-backend-master
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-        with:
-          args: ./WWA-backend-master --sarif-file-output=snyk.sarif
-          command: test
-          json: false
-      - name: Upload result to GitHub Code Scanning
+      - name: Upload SARIF to GitHub Security Center
         uses: github/codeql-action/upload-sarif@v3
         with:
           sarif_file: snyk.sarif
