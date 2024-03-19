@@ -37,15 +37,5 @@ jobs:
             -Dsonar.login=${{ secrets.SONAR_TOKEN }}
             -Dsonar.javascript.lcov.reportPaths=WWA-backend-master/coverage/lcov.info
             
-      # Add the Snyk security scan step
 
-      - name: Snyk Security Scan
-        run: 
-          --snyk test --org=shreyashettys202 --project-name=Group2 --json || true
-        env:
-          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-        with:
-          args: 
-            --severity-threshold=high
-        continue-on-error: true
      
