@@ -17,22 +17,12 @@ jobs:
         with:
           node-version: '18'
       
-      # Assuming your frontend might also need dependency installation.
-      - name: Install frontend dependencies
-        run: npm install
-        working-directory: WWA-frontend-master
-      
-      # If your frontend also has tests you wish to run.
-      - name: Run frontend Jest tests with coverage
-        run: npm test -- --coverage || true # Ignore test failures
-        working-directory: WWA-frontend-master
-      
       - name: Generate JSDoc documentation
         uses: andstor/jsdoc-action@v1
         with:
           source_dir: ./WWA-frontend-master/src
           output_dir: ./WWA-frontend-master/out
-          config_file: conf.json
+          config_file: jsdoc.conf.json
           template: minami
           front_page: README.md
       
