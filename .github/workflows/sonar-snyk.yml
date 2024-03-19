@@ -39,21 +39,30 @@ jobs:
             
       # Snyk security scan step for web
 
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
       - name: Set up Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: '20' # Adjust the version as needed
-      - name: Run Snyk to check for vulnerabilities
-        uses: snyk/actions/node@master
+          node-version: '20' # Adjust based on your project's Node.js version
+
+      - name: Install Snyk CLI
+        run: npm install -g snyk
+
+      - name: Snyk Security Scan
+        run: snyk test --org=shreyashettys202 --project-name='Project-Group3'
         continue-on-error: true
-        with:
-          args: ./WWA-backend-master --sarif-file-output=snyk.sarif
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-      - name: Upload SARIF to GitHub Security Center
-        uses: github/codeql-action/upload-sarif@v3
-        with:
-          sarif_file: snyk.sarif
+        working-directory: WWA-backend-master
+
+      - name: Snyk Monitor
+        run: snyk monitor --org=shreyashettys202 --project-name='Project-Group3'
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        working-directory: WWA-backend-master
+
 
   # Snyk security scan step for Code Scanning
 
@@ -73,12 +82,12 @@ jobs:
         with:
           sarif_file: snyk.sarif
           category: 'Snyk Open Source Unique Category'
-
+  ########################################JSDoc
       - name: Build
         uses: andstor/jsdoc-action@v1
         with:
-          source_dir: ./WWA-backend-master/src
-          output_dir: ./WWA-backend-master/out
+          source_dir: ./WWA-frontend-master/src
+          output_dir: ./WWA-frontend-master/out
           config_file: conf.json
           template: minami
           front_page: README.md
