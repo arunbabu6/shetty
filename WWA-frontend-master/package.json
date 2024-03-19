@@ -18,11 +18,15 @@
     "react-spinners": "^0.13.8",
     "web-vitals": "^2.1.4"
   },
+  "devDependencies": {
+    "jsdoc": "^4.0.2"
+  },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "doc": "jsdoc -c jsdoc.json"
   },
   "eslintConfig": {
     "extends": [
