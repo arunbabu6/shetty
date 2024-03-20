@@ -12,7 +12,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '18'
+          node-version: '16'
       - name: Install dependencies
         run: cd WWA-backend-master && npm install
       - name: Run Jest tests with coverage
@@ -32,7 +32,62 @@ jobs:
         with:
           args: >
             -Dsonar.organization=jollyjerinjoy
-            -Dsonar.projectKey=jollyjerinjoy_myreactapp1
+            -Dsonar.projectKey=myreactapp1
             -Dsonar.sources=.
             -Dsonar.login=${{ secrets.SONARC_TOKEN }}
             -Dsonar.javascript.lcov.reportPaths=WWA-backend-master/coverage/lcov.info
+
+
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '20' # Adjust based on your project's Node.js version
+
+      - name: Install Snyk CLI
+        run: npm install -g snyk
+
+      - name: Snyk Security Scan
+        run: snyk test --org=shreyashettys202 --project-name='Project-Group3'
+        continue-on-error: true
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        working-directory: WWA-backend-master
+
+      - name: Snyk Security Scan Frontend
+        run: snyk test --org=shreyashettys202 --project-name='Project-Group3'
+        continue-on-error: true
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        working-directory: WWA-frontend-master
+                
+      - name: Snyk Monitor
+        run: snyk monitor --org=shreyashettys202 --project-name='Project-Group3'
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        working-directory: WWA-backend-master
+
+      - name: Snyk Monitor Frontend
+        run: snyk monitor --org=shreyashettys202 --project-name='Project-Group3'
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        working-directory: WWA-frontend-master
+                
+  # Snyk security scan step for Code Scanning
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '20' # Adjust the version as needed
+      - name: Run Snyk to check for vulnerabilities
+        uses: snyk/actions/node@master
+        continue-on-error: true
+        with:
+          args: ./WWA-backend-master --sarif-file-output=snyk.sarif
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+      - name: Upload SARIF to GitHub Security Center
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: snyk.sarif
+          category: 'Snyk OpenSource Unique Category'
